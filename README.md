@@ -105,4 +105,4 @@ Tested on Windows (USB detection uses Windows API).
 
 Local storage works cross-platform (Linux, macOS) if USB features are disabled/removed.
 
-Thank you for using SecretVault — your secure personal data vault."
+Thank you for using SecretVault — your secure personal data vault.

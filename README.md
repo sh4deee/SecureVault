@@ -1,39 +1,58 @@
 # SecretVault - Encrypted Personal Data Manager with USB Support
 
 **SecretVault** is a secure, console-based personal data manager written in Python.  
-It encrypts and stores user credentials, passwords, and sensitive data with strong cryptographic methods, and supports saving data locally or on removable USB drives for portability and security.
+It encrypts and stores user credentials, passwords, and sensitive data with strong cryptographic methods, supporting both local and removable USB storage for portability and security.
 
 ---
 
 ## Features
 
-- User sign-up and login with password hashing (bcrypt) and username hashing (SHA-256).
-- Data encryption and decryption using modern cryptographic standards (libsodium/NaCl and HKDF).
-- Secure storage of encrypted data, keys, and authentication info in JSON files.
-- Support for local storage or external USB drives (Windows-only USB detection and management).
+- User sign-up and login with bcrypt password hashing and SHA-256 username hashing.
+- Data encryption and decryption with libsodium/NaCl SecretBox and HKDF key derivation.
+- Secure JSON storage of encrypted data, keys, and authentication info.
+- Support for local storage or external USB drives (Windows-only USB detection/management).
 - Manage encrypted user data: add, view, update, delete entries.
-- Change password functionality with re-encryption.
+- Change password with secure re-encryption.
 - Export user data to text files with overwrite protection.
 - Transfer user data to USB and securely wipe local copies.
 - Interactive CLI menu with clear options and help/FAQ.
 - Automatic backup of authentication and key files.
-- Modular code with separation between USB management and main logic.
+- Modular codebase separating USB handling from main logic.
 
 ---
 
 ## Files Created by the Program
 
-SecretVault maintains the following files (all JSON format):
-
-| File Name          | Purpose                                  |
-|--------------------|------------------------------------------|
-| `AUTH.json`        | Stores bcrypt-hashed passwords + salts + timestamps |
-| `AUTH_BACKUP.json` | Backup of AUTH.json                      |
-| `KEY.json`         | Stores base64-encoded encryption keys and salts |
-| `KEY_BACKUP.json`  | Backup of KEY.json                       |
-| `DATABASE.json`    | Stores encrypted user data entries      |
+| File Name           | Purpose                                              |
+|---------------------|-----------------------------------------------------|
+| `AUTH.json`         | Stores bcrypt-hashed passwords + salts + timestamps|
+| `AUTH_BACKUP.json`  | Backup of AUTH.json                                  |
+| `KEY.json`          | Stores base64-encoded encryption keys and salts    |
+| `KEY_BACKUP.json`   | Backup of KEY.json                                   |
+| `DATABASE.json`     | Stores encrypted user data entries                   |
 
 ---
+
+## Project Structure
+
+SecretVault/
+│
+├── run.py # Main launcher script; checks dependencies, installs missing ones, runs program
+├── main.py # Core application logic (authentication, encryption, CLI menus, data management)
+├── usb_monitor.py # USB drive detection and management (Windows-specific)
+├── AUTH.json # User authentication data file (created on first run)
+├── AUTH_BACKUP.json # Backup auth data file
+├── KEY.json # Encryption key data file
+├── KEY_BACKUP.json # Backup key data file
+├── DATABASE.json # Encrypted user data file
+└── README.md # This file
+
+yaml
+Copy
+Edit
+
+---
+
 ## How to Run
 
 1. **Clone the repository:**
@@ -41,3 +60,53 @@ SecretVault maintains the following files (all JSON format):
 ```bash
 git clone https://github.com/YourUsername/SecretVault.git
 cd SecretVault
+Make sure Python 3.7 or higher is installed.
+
+Run the launcher script:
+
+bash
+Copy
+Edit
+python run.py
+The launcher will:
+
+Check if all required Python libraries are installed.
+
+Prompt to install missing third-party modules (cryptography, colorama, pynacl, bcrypt, pywin32).
+
+Automatically install missing dependencies if you confirm.
+
+Launch the SecretVault application once dependencies are ready.
+
+Usage Overview
+Sign up or log in through the menu.
+
+Choose to store your encrypted data locally or on a removable USB drive.
+
+Use the intuitive CLI to add, view, edit, or delete your encrypted entries.
+
+Change your password securely (data is re-encrypted).
+
+Export your data to text files or transfer and wipe data securely from the device.
+
+Access help/FAQ anytime from the menu.
+
+Dependencies
+Python 3.7+
+
+cryptography (for HKDF, hashing)
+
+pynacl (libsodium SecretBox encryption)
+
+bcrypt (password hashing)
+
+colorama (optional, for colored CLI output)
+
+pywin32 (Windows USB drive detection)
+
+The run.py script handles dependency checking and installation automatically.
+
+Platform Support
+Tested on Windows (USB detection uses Windows API).
+
+Local storage works cross-platform (Linux, macOS) if USB features are disabled or removed.

@@ -52,9 +52,10 @@ SecretVault/
 
 1. **Clone the repository:**
 
-bash
-git clone https://github.com/YourUsername/SecretVault.git
+```bash
+git clone https://github.com/sh4de/SecretVault.git
 cd SecretVault
+```
 Make sure Python 3.7 or higher is installed.
 
 Run the launcher script run.py. It will:

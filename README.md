@@ -1,5 +1,3 @@
-# SecretVault - Encrypted Personal Data Manager with USB Support
-
 **SecretVault** is a secure, console-based personal data manager written in Python.  
 It encrypts and stores user credentials, passwords, and sensitive data with strong cryptographic methods, supporting both local and removable USB storage for portability and security.
 
@@ -24,12 +22,12 @@ It encrypts and stores user credentials, passwords, and sensitive data with stro
 ## Files Created by the Program
 
 | File Name           | Purpose                                              |
-|---------------------|-----------------------------------------------------|
-| `AUTH.json`         | Stores bcrypt-hashed passwords + salts + timestamps|
-| `AUTH_BACKUP.json`  | Backup of AUTH.json                                  |
-| `KEY.json`          | Stores base64-encoded encryption keys and salts    |
-| `KEY_BACKUP.json`   | Backup of KEY.json                                   |
-| `DATABASE.json`     | Stores encrypted user data entries                   |
+|---------------------|------------------------------------------------------|
+| AUTH.json         | Stores bcrypt-hashed passwords + salts + timestamps |
+| AUTH_BACKUP.json  | Backup of AUTH.json                                  |
+| KEY.json          | Stores base64-encoded encryption keys and salts    |
+| KEY_BACKUP.json   | Backup of KEY.json                                   |
+| DATABASE.json     | Stores encrypted user data entries                   |
 
 ---
 
@@ -57,18 +55,12 @@ Edit
 
 1. **Clone the repository:**
 
-```bash
+bash
 git clone https://github.com/YourUsername/SecretVault.git
 cd SecretVault
 Make sure Python 3.7 or higher is installed.
 
-Run the launcher script:
-
-bash
-Copy
-Edit
-python run.py
-The launcher will:
+Run the launcher script run.py. It will:
 
 Check if all required Python libraries are installed.
 
@@ -78,14 +70,18 @@ Automatically install missing dependencies if you confirm.
 
 Launch the SecretVault application once dependencies are ready.
 
+bash
+Copy
+Edit
+python run.py
 Usage Overview
-Sign up or log in through the menu.
+Upon running, you will be presented with a menu to sign up or log in.
 
 Choose to store your encrypted data locally or on a removable USB drive.
 
 Use the intuitive CLI to add, view, edit, or delete your encrypted entries.
 
-Change your password securely (data is re-encrypted).
+Change your password securely, which re-encrypts your data.
 
 Export your data to text files or transfer and wipe data securely from the device.
 
@@ -109,4 +105,9 @@ The run.py script handles dependency checking and installation automatically.
 Platform Support
 Tested on Windows (USB detection uses Windows API).
 
-Local storage works cross-platform (Linux, macOS) if USB features are disabled or removed.
+Local storage works cross-platform (Linux, macOS) if USB features are disabled/removed.
+
+Contact & Support
+For any questions or issues, please open an issue on GitHub or contact support@example.com.
+
+Thank you for using SecretVault — your secure personal data vault."

@@ -53,7 +53,7 @@ SecretVault/
 1. **Clone the repository:**
 
 ```bash
-git clone https://github.com/sh4de/SecretVault.git
+git clone https://github.com/sh4deee/SecretVault.git
 cd SecretVault
 ```
 Make sure Python 3.7 or higher is installed.

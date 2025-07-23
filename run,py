@@ -1,0 +1,143 @@
+import sys
+import importlib.util
+import subprocess
+import os
+
+# =============================
+# Dependency Configuration
+# =============================
+
+# Standard library modules (usually built-in)
+STD_MODULES = [
+    "os",
+    "sys",
+    "json",
+    "time",
+    "threading",
+    "base64",
+    "hashlib",
+    "hashlib.pbkdf2_hmac",  # This is a function inside hashlib, will check hashlib only
+]
+
+# Third-party modules that need pip install
+THIRD_PARTY_MODULES = [
+    "bcrypt",
+    "cryptography",
+    "nacl",
+]
+
+# Windows-only modules
+WINDOWS_MODULES = [
+    "win32file",
+    "win32api",
+]
+
+# =============================
+# Helper functions
+# =============================
+
+def check_python_version():
+    if sys.version_info < (3, 7):
+        print(f"[!] Python 3.7+ is required. Current: {sys.version}")
+        sys.exit(1)
+
+def is_module_missing(module_name):
+    """Return True if module not found."""
+    return importlib.util.find_spec(module_name) is None
+
+def install_module(module_name):
+    print(f"[*] Installing {module_name} via pip...")
+    try:
+        result = subprocess.run(
+            [sys.executable, "-m", "pip", "install", module_name],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        print(result.stdout)
+        return not is_module_missing(module_name)
+    except subprocess.CalledProcessError as e:
+        print(f"[✗] Failed to install {module_name}.")
+        print(f"Error output:\n{e.stderr}")
+        return False
+    except Exception as e:
+        print(f"[✗] Unexpected error installing {module_name}: {e}")
+        return False
+
+# =============================
+# Main entry point
+# =============================
+
+def main():
+    check_python_version()
+
+    missing_modules = []
+
+    # Check standard modules (warning only)
+    for mod in STD_MODULES:
+        # hashlib.pbkdf2_hmac is part of hashlib, so just check hashlib
+        if mod == "hashlib.pbkdf2_hmac":
+            mod = "hashlib"
+        if is_module_missing(mod):
+            missing_modules.append(mod)
+
+    # Check third-party modules
+    missing_third_party = [m for m in THIRD_PARTY_MODULES if is_module_missing(m)]
+
+    # Check Windows-only modules only if running on Windows
+    missing_windows = []
+    if os.name == "nt":
+        for m in WINDOWS_MODULES:
+            if is_module_missing(m):
+                missing_windows.append(m)
+
+    if missing_third_party:
+        print("\n[!] Missing third-party modules:")
+        for m in missing_third_party:
+            print(f" - {m}")
+
+        if not is_module_missing("pip"):
+            ans = input("\nDo you want to install missing third-party modules with pip? [y/N]: ").strip().lower()
+            if ans == "y":
+                for mod in missing_third_party:
+                    if install_module(mod):
+                        print(f"[✓] Installed {mod}.")
+                        if mod in missing_modules:
+                            missing_modules.remove(mod)
+                    else:
+                        print(f"[✗] Could not install {mod}. Please install manually.")
+                        missing_modules.append(mod)
+            else:
+                print("[!] Skipped installing third-party modules.")
+        else:
+            print("[!] pip not available. Please install the missing modules manually.")
+
+    # Add missing Windows modules to missing list (no auto install)
+    if missing_windows:
+        print("\n[!] Missing Windows-only modules (no automatic install):")
+        for m in missing_windows:
+            print(f" - {m}")
+        missing_modules.extend(missing_windows)
+
+    # If any stdlib, third-party or Windows modules still missing, warn and exit
+    if missing_modules:
+        print("\n[!] WARNING: The following modules are missing or unsupported on your system:")
+        for m in set(missing_modules):  # unique list
+            print(f" - {m}")
+        print("\nPlease fix these issues and try again.")
+        input("Press Enter to exit...")
+        sys.exit(1)
+
+    # All dependencies satisfied — import your main program here and run it
+    try:
+        from program import Program # Adjust if your main program file is named differently
+    except ImportError as e:
+        print(f"[✗] Could not import main program module: {e}")
+        input("Press Enter to exit...")
+        sys.exit(1)
+
+    program = Program()
+    program.user_menu()
+
+if __name__ == "__main__":
+    main()

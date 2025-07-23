@@ -33,8 +33,8 @@ It encrypts and stores user credentials, passwords, and sensitive data with stro
 
 ## Project Structure
 
+```plaintext
 SecretVault/
-│
 ├── run.py # Main launcher script; checks dependencies, installs missing ones, runs program
 ├── main.py # Core application logic (authentication, encryption, CLI menus, data management)
 ├── usb_monitor.py # USB drive detection and management (Windows-specific)
@@ -44,10 +44,7 @@ SecretVault/
 ├── KEY_BACKUP.json # Backup key data file
 ├── DATABASE.json # Encrypted user data file
 └── README.md # This file
-
-yaml
-Copy
-Edit
+```
 
 ---
 
